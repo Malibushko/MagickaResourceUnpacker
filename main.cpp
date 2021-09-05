@@ -1,9 +1,20 @@
 #include <iostream>
+#include <map>
+#include <vector>
+#include <string>
 
-using namespace std;
+#include "Unpacker.h"
 
-int main()
+int main(int argc, char ** argv)
 {
-    cout << "Hello World!" << endl;
+    if (argc != 2)
+    {
+        std::cerr << "Expected 2 arguments" << std::endl;
+        return 1;
+    }
+
+    Unpacker unpacker;
+    unpacker.UnpackDirectory(argv[1]);
+
     return 0;
 }
