@@ -6,18 +6,27 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(HEADERS third_party/MurmurHash2/MurmurHash2.h
-            src/Unpacker.h
+            
             )
 set(SOURCES main.cpp
             third_party/MurmurHash2/MurmurHash2.cpp
-            src/Unpacker.cpp
             )
+            
+if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
+    message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
+    file(DOWNLOAD "https://github.com/conan-io/cmake-conan/raw/v0.15/conan.cmake"
+        "${CMAKE_BINARY_DIR}/conan.cmake")
+endif()
 
-set(REPROC++ ON)
-add_subdirectory(third_party/reproc)
+include(${CMAKE_BINARY_DIR}/conan.cmake)
 
-add_executable(MagickaUnpacker ${HEADERS} ${SOURCES})
+conan_cmake_run(REQUIRES zstr/1.0.4
+                BUILD missing
+                BASIC_SETUP
+                CMAKE_TARGETS)
+
+add_executable(MagickaUnpacker ${HEADERS} ${SOURCES} "src/SegmentedFileDecompressor.cpp")
 target_include_directories(MagickaUnpacker PRIVATE src
-                                                   third_party
-                                                   third_party/reproc/reproc++/include)
-target_link_libraries(MagickaUnpacker PRIVATE reproc++)
+                                                   third_party)
+
+target_link_libraries(MagickaUnpacker PRIVATE CONAN_PKG::zstr)

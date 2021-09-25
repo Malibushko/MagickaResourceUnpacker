@@ -3,18 +3,13 @@
 #include <vector>
 #include <string>
 
-#include "Unpacker.h"
+#include "SegmentedFileDecompressor.h"
 
+#include  "MurmurHash2/MurmurHash2.h"
 int main(int argc, char ** argv)
 {
-    if (argc != 2)
-    {
-        std::cerr << "Expected 2 arguments" << std::endl;
-        return 1;
-    }
-
-    Unpacker unpacker;
-    unpacker.UnpackDirectory(argv[1]);
-
-    return 0;
+  SegmentedFileDecompressor decompressor;
+  decompressor.Decompress("D:\\Steam\\steamapps\\common\\Magicka 2\\data", "C:\\Temp");
+  
+  return 0;
 }
