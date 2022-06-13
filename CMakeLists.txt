@@ -9,6 +9,7 @@ set(HEADERS third_party/MurmurHash2/MurmurHash2.h
             
             )
 set(SOURCES main.cpp
+            src/SegmentedFile.cpp
             third_party/MurmurHash2/MurmurHash2.cpp
             )
             
@@ -25,7 +26,7 @@ conan_cmake_run(REQUIRES zstr/1.0.4
                 BASIC_SETUP
                 CMAKE_TARGETS)
 
-add_executable(MagickaUnpacker ${HEADERS} ${SOURCES} "src/SegmentedFileDecompressor.cpp")
+add_executable(MagickaUnpacker ${HEADERS} ${SOURCES})
 target_include_directories(MagickaUnpacker PRIVATE src
                                                    third_party)
 
